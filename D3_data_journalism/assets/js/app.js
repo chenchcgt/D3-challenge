@@ -31,11 +31,11 @@ var svg = d3.select("#scatter")
 console.log(censusData);
 
     var xLinearScale = d3.scaleLinear()
-    .domain([20, d3.max(censusData, d => d.poverty)])
+    .domain([8, d3.max(censusData, d => d.poverty)])
     .range([0, width]);
 
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(censusData, d => d.healthcare)])
+    .domain([4, d3.max(censusData, d => d.healthcare)])
     .range([height, 0]);   
     // Step 3: Create axis functions
     // ==============================
@@ -57,12 +57,19 @@ console.log(censusData);
     .data(censusData)
     .enter()
     .append("circle")
+    .classed("stateCircle",true)
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", "15")
-    .attr("fill", "pink")
-    .attr("opacity", ".5");
+    .text(function(d) { return d.abbr})
+    .classed("stateText", true);
+    // .attr("fill", "blue")
+    // .attr("opacity", ".5");
 
+    // circlesGroup.append("text")
+    // // .attr("dx", function(d){return -20})
+    // .text(function(d) { return d.abbr})
+    // .classed("stateText", true);
     
     // Create axes labels
     chartGroup.append("text")
@@ -71,14 +78,16 @@ console.log(censusData);
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .attr("class", "axisText")
-      .text("Number of Billboard 100 Hits");
+      .text("Lacks Healthcare (%)")
+      .classed("active",true);
 
     chartGroup.append("text")
       .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
       .attr("class", "axisText")
-      .text("Hair Metal Band Hair Length (inches)");
+      .text("In Poverty(%)")
+      .classed("active",true);
   })
   
-//   .catch(function(error) {
-//     console.log(error);
-//   });
+  .catch(function(error) {
+    console.log(error);
+  });
