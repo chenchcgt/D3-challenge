@@ -53,7 +53,8 @@ console.log(censusData);
 
           // Step 5: Create Circles
     // ==============================
-    var circlesGroup = chartGroup.selectAll("circle")
+    // var circlesGroup = chartGroup.selectAll("circle")
+    chartGroup.selectAll("circle")
     .data(censusData)
     .enter()
     .append("circle")
@@ -61,14 +62,25 @@ console.log(censusData);
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", "15")
-    .text(function(d) { return d.abbr})
-    .classed("stateText", true);
-    // .attr("fill", "blue")
-    // .attr("opacity", ".5");
-
-    // circlesGroup.append("text")
-    // // .attr("dx", function(d){return -20})
+    .merge(chartGroup)
     // .text(function(d) { return d.abbr})
+    // .classed("stateText", true);
+    // .html(function(d) {return `<text>${d.abbr}</text>`});
+    // .classed("stateText", true);
+
+    // var textGroup = chartGroup.append("g")
+    chartGroup.append("g")
+    .selectAll("text")
+    .data(censusData)
+    .enter()
+    .append("text")
+    .classed("stateText", true)
+    .attr("x", d => xLinearScale(d.poverty))
+    .attr("y", d => yLinearScale(d.healthcare))
+    // .merge(chartGroup)
+    // chartGroup.append("text")
+    // .attr("dx", function(d){return -20})
+    .text(function(d) { return d.abbr})
     // .classed("stateText", true);
     
     // Create axes labels
